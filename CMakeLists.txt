@@ -31,11 +31,14 @@ endif()
 
 ament_package()
 
-
-
 include_directories(
   include
   ${OpenCV_INCLUDE_DIRS}
+)
+
+install(
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
 )
 
 add_executable(image_blur_node src/image_blur_node.cpp)
@@ -55,3 +58,10 @@ ament_target_dependencies(image_edge_detection_node rclcpp sensor_msgs cv_bridge
 
 target_link_libraries(image_edge_detection_node ${OpenCV_LIBRARIES})
 install(TARGETS image_edge_detection_node DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS
+  static_image_publisher_node
+  image_blur_node
+  image_edge_detection_node
+  DESTINATION lib/${PROJECT_NAME}
+)
