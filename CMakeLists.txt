@@ -49,3 +49,9 @@ ament_target_dependencies(static_image_publisher_node rclcpp sensor_msgs cv_brid
 
 target_link_libraries(static_image_publisher_node ${OpenCV_LIBRARIES})
 install(TARGETS static_image_publisher_node DESTINATION lib/${PROJECT_NAME})
+
+add_executable(image_edge_detection_node src/image_edge_detection_node.cpp)
+ament_target_dependencies(image_edge_detection_node rclcpp sensor_msgs cv_bridge image_transport)
+
+target_link_libraries(image_edge_detection_node ${OpenCV_LIBRARIES})
+install(TARGETS image_edge_detection_node DESTINATION lib/${PROJECT_NAME})
