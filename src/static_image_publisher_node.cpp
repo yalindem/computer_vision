@@ -12,12 +12,16 @@ public:
         pub_ = image_transport::create_publisher(this, "image_raw");
 
         std::string image_path = "/home/yalin/Downloads/test_image.png";
-        image_ = cv::imread(image_path, cv::IMREAD_COLOR);
+        cv::Mat color_image = cv::imread(image_path, cv::IMREAD_COLOR);
 
-        if (image_.empty()) {
+        if (color_image.empty()) {
             RCLCPP_ERROR(this->get_logger(), "Image cannot be read: %s", image_path.c_str());
-            rclcpp::shutdown();
+            //rclcpp::shutdown();
+            return;
         }
+
+        // Görüntüyü griye çevir
+        cv::cvtColor(color_image, image_, cv::COLOR_BGR2GRAY);
 
         timer_ = this->create_wall_timer(
             std::chrono::milliseconds(500),
@@ -27,9 +31,9 @@ public:
 
 private:
     void publish_image() {
-        auto msg = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", image_).toImageMsg();
+        auto msg = cv_bridge::CvImage(std_msgs::msg::Header(), "mono8", image_).toImageMsg();
         pub_.publish(msg);
-        RCLCPP_INFO_ONCE(this->get_logger(), "The image is being publishing: /image_raw");
+        RCLCPP_INFO_ONCE(this->get_logger(), "The grayscale image is being published: /image_raw");
     }
 
     cv::Mat image_;

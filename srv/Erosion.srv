@@ -1,0 +1,6 @@
+# Request
+sensor_msgs/Image image
+int32 erosion_size
+---
+# Response
+sensor_msgs/Image eroded_image

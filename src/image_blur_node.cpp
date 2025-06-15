@@ -47,10 +47,10 @@ public:
 
 private:
     void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr& msg) {
-        cv::Mat frame = cv_bridge::toCvShare(msg, "bgr8")->image;
+        cv::Mat frame = cv_bridge::toCvShare(msg, "mono8")->image;
         cv::Mat blurred;
         cv::GaussianBlur(frame, blurred, cv::Size(5, 5), 0);
-        pub_.publish(cv_bridge::CvImage(msg->header, "bgr8", blurred).toImageMsg());
+        pub_.publish(cv_bridge::CvImage(msg->header, "mono8", blurred).toImageMsg());
     }
 
     image_transport::Subscriber sub_;

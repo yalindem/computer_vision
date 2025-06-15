@@ -35,10 +35,7 @@ public:
 
 private:
     void image_callback(const sensor_msgs::msg::Image::ConstSharedPtr &msg) {
-        cv::Mat frame = cv_bridge::toCvShare(msg, "bgr8")->image;
-
-        cv::Mat gray;
-        cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
+        cv::Mat gray = cv_bridge::toCvShare(msg, "mono8")->image;
 
         cv::Mat edges;
 
